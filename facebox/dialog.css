@@ -1,0 +1,12 @@
+.pop_content .dialog_body a, #facebox .dialog_body a {
+	color: #6d84b4;
+}
+.pop_content p, #facebox p, .pop_content div, #facebox div {
+	color: #000;
+}
+.pop_content .dialog_body h2, #facebox .dialog_body h2 {
+	color: #000;
+}
+
+
+

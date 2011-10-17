@@ -1,0 +1,172 @@
+#facebox .b {
+  background:url(b.png);
+}
+
+#facebox .tl {
+  background:url(tl.png);
+}
+
+#facebox .tr {
+  background:url(tr.png);
+}
+
+#facebox .bl {
+  background:url(bl.png);
+}
+
+#facebox .br {
+  background:url(br.png);
+}
+
+#facebox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  text-align: left;
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;font-size:11px;color:#333;
+}
+
+#facebox .popup {
+  position: relative;
+}
+
+#facebox table {
+  border-collapse: collapse;
+}
+
+#facebox td {
+  border-bottom: 0;
+  padding: 0;
+}
+
+#facebox .body {
+  padding: 0;
+  background: #fff;
+  width: 473px;
+  border: 1px solid #555;
+}
+
+#facebox h2.dialog_title {background:#6d84b4;color:#fff;font-size:14px;font-weight:bold;margin:0}
+#facebox h2.dialog_title span {display:block;padding:5px 10px}
+#facebox .dialog_body {padding:10px;border-bottom:1px solid #ccc}
+
+#facebox .loading {
+  text-align: center;
+}
+
+#facebox .image {
+  text-align: center;
+}
+
+#facebox img {
+  border: 0;
+  margin: 0;
+}
+
+#facebox .footer {
+  background:#f2f2f2;
+  padding:8px 10px 8px 10px;
+  border-top: 1px solid #DDDDDD;
+  text-align: right;
+}
+
+#facebox .tl, #facebox .tr, #facebox .bl, #facebox .br {
+  height: 10px;
+  width: 10px;
+  overflow: hidden;
+  padding: 0;
+}
+
+#facebox_overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height:100%;
+  width:100%;
+}
+
+.facebox_hide {
+  z-index:-100;
+}
+
+.facebox_overlayBG {
+  background-color: #000;
+  z-index: 99;
+}
+
+* html #facebox_overlay { /* ie6 hack */
+  position: absolute;
+  height: expression(document.body.scrollHeight > document.body.offsetHeight ? document.body.scrollHeight : document.body.offsetHeight + 'px');
+}
+
+/* ----- Buttons ----- */
+/* Default Button */
+#facebox .button {
+	font-size: 11px;
+}
+#facebox .button, #facebox .inputbutton, #facebox .inputsubmit {
+	background:#5872a7 url("images.gif") repeat-x 0 -48px;
+	display:inline-block;
+	outline:medium none;
+	padding:3px 6px;
+	vertical-align:bottom;
+	box-shadow:0 1px 0 rgba(0, 0, 0, 0.1);
+	-moz-box-shadow:0 1px 0 rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow:0 1px 0 rgba(0, 0, 0, 0.1);
+	border-style:solid;
+	border-width:1px;
+	border-color:#29447e #29447e #1a356e;
+	text-align:center;
+	cursor: pointer;
+	font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+	color: #fff;
+}
+#facebox a.button {
+	font-weight: bold;
+	color: #fff;
+}
+#facebox a.button:hover, #facebox .inputbutton:hover, #facebox .inputsubmit:hover {
+	text-decoration: none;
+	background: #5872a7;
+}
+
+/* Gray Button */
+#facebox .button-gray  {
+	background:#eee url("images.gif") repeat-x 0 0;
+	box-shadow:0 1px 0 rgba(0, 0, 0, 0.1);
+	-moz-box-shadow:0 1px 0 rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow:0 1px 0 rgba(0, 0, 0, 0.1);
+	border-color:#999 #999 #888;
+}
+#facebox a.button-gray {
+	color: #333;
+}
+#facebox a.button-gray:hover {
+	background: #f5f4f5;
+}
+/* Alt Button */
+#facebox .button-alt  {
+	background:#67a54b url("images.gif") repeat-x 0 -96px;
+	box-shadow:0 1px 0 rgba(0, 0, 0, 0.1);
+	-moz-box-shadow:0 1px 0 rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow:0 1px 0 rgba(0, 0, 0, 0.1);
+	border-color:#3b6e22 #3b6e22 #2c5a15;
+}
+#facebox a.button-alt {
+	color: #fff;
+}
+#facebox a.button-alt:hover {
+	background: #67a54b;
+}
+/* Large Buttons */
+#facebox .button-large {
+	font-size: 14px;
+	padding: 8px 14px;
+	}
+/* Large Buttons */
+#facebox .button-xtra-large {
+	font-size: 16px;
+	padding: 14px 20px;
+	}
+	
