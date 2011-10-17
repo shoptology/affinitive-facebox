@@ -7,10 +7,10 @@ There is a more recent version of facebox at https://github.com/defunkt/facebox 
 
 Original copyright header from the version we are using:
  
-Facebox (for jQuery)
-version: 1.2 (05/05/2008)
-Examples at http://famspam.com/facebox/
-Licensed under the MIT:
-http://www.opensource.org/licenses/mit-license.php
-Copyright 2007, 2008 Chris Wanstrath [ chris@ozmm.org ]
+    Facebox (for jQuery)
+    version: 1.2 (05/05/2008)
+    Examples at http://famspam.com/facebox/
+    Licensed under the MIT:
+    http://www.opensource.org/licenses/mit-license.php
+    Copyright 2007, 2008 Chris Wanstrath [ chris@ozmm.org ]
 
