@@ -27,6 +27,10 @@
   font-family:"lucida grande",tahoma,verdana,arial,sans-serif;font-size:11px;color:#333;
 }
 
+#facebox a.button {
+	text-decoration: none;
+}
+
 #facebox .popup {
   position: relative;
 }
