@@ -1,0 +1,63 @@
+<!doctype html>
+<head>
+<title>Facebox Demo</title>
+<link rel="stylesheet" type="text/css" href="facebox/facebox.css" />
+<style>
+.padded { margin: 10px; }
+</style>
+</head>
+<body>
+
+<p><a href="#" class="custom-buttons">Dialog with custom buttons</a></p>
+<p><a href="#" class="custom-buttons2">Dialog with different custom buttons</a></p>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="facebox/facebox.js"></script>
+<script>
+
+jQuery(function($) {
+	$(document).on('buttons.facebox', function() {
+		$.facebox.$el.find('.footer a').click(function(e) {
+			$.facebox.close()
+			switch ($(this).data('value')) {
+				case 'yep':
+					alert('Great minds think alike.')
+				break
+				case 'nope':
+					alert('Yes, they are.')
+				break
+				case 'ok':
+					alert('OK')
+				break
+				case 'cancel':
+					alert('Cancel')
+				break
+			}
+		})
+	})
+	$(".custom-buttons").click(function(e) {
+		e.stopPropagation()
+		e.preventDefault()
+		$.facebox({
+			html: '<p class="padded">Dialogs are awesome!</p>',
+			el: this,
+			buttons: '<a href="#" class="button" data-value="yep">Yep</a> <a href="#" class="button" data-value="nope">Nope</a>',
+			defaultButton: 'a[data-value=yep]',
+			cancelButton: 'a[data-value=nope]'
+		})
+	})
+	$(".custom-buttons2").click(function(e) {
+		e.stopPropagation()
+		e.preventDefault()
+		$.facebox({
+			html: '<p class="padded">Click OK.</p>',
+			el: this,
+			buttons: '<a href="#" class="button" data-value="ok">OK</a> <a href="#" class="button" data-value="cancel">Cancel</a>',
+			defaultButton: 'a[data-value=ok]',
+			cancelButton: 'a[data-value=cancel]'
+		})
+	})
+})
+
+</script>
+</body>

@@ -49,6 +49,12 @@
  *    jQuery.facebox({ div: '#box' })
  *    jQuery.facebox({ div: '#box' }, 'my-groovy-style')
  *
+ *  affinitive-facebox additions
+ *
+ *    jQuery.facebox({ html: 'custom html innards' })
+ *    jQuery.facebox({ div: '#box', el: someHtmlElementToPositionTheDialogOn })
+ *    jQuery.facebox({ html: 'hey there', buttons: '<a href="#" class="close">Click Me!</a>' })
+ *
  *  Want to close the facebox?  Trigger the 'close.facebox' document event:
  *
  *    jQuery(document).trigger('close.facebox')
@@ -59,18 +65,31 @@
  *    beforeReveal.facebox
  *    reveal.facebox (aliased as 'afterReveal.facebox')
  *    init.facebox
+ *    afterInit.facebox
  *    afterClose.facebox
+ *    buttons.facebox (after custom buttons are rendered)
+ *    default.facebox (triggered by the enter key)
+ *    cancel.facebox (triggered by the escape key)
  *
  *  Simply bind a function to any of these hooks:
  *
  *   $(document).bind('reveal.facebox', function() { ...stuff to do after the facebox and contents are revealed... })
  *
+ *  For binding custom buttons:
+ *
+ *   jQuery.facebox({ html: 'hey there', buttons: '<a href="#" class="goSomewhere">Click Me!</a>' })
+ *   $('#facebox').on('click', '.goSomewhere', function(e) {
+ *     e.preventDefault()
+ *     e.stopPropagation()
+ *     window.location = "http::/somewhere.com"
+ *   })
  */
 (function($) {
   $.facebox = function(data, klass) {
+    var options = data
   	if (data.el) {
-  		$.facebox.currentEl = data.el;
-  		if (data.elOffset) {
+  	    $.facebox.currentEl = data.el;
+  	    if (data.elOffset) {
   			$.facebox.currentElOffset = data.elOffset; 
   		} else {
   			$.facebox.currentElOffset = 0;	
@@ -81,7 +100,28 @@
   	if (data.html) {
   		data = data.html;  		
   	}
+    $(document).on('default.facebox', function() {
+      $.facebox.close()	  
+    })
+    $(document).on('cancel.facebox', function() {
+      $.facebox.close()	  
+    })
     $.facebox.loading()
+    if (options.buttons) {
+      $.facebox.buttons(options.buttons)
+      if (options.defaultButton) {
+        $(document).off('default.facebox')
+        $(document).on('default.facebox', function() {
+          $.facebox.$el.find(options.defaultButton).click()
+        })
+      }
+      if (options.cancelButton) {
+        $(document).off('cancel.facebox')
+        $(document).on('cancel.facebox', function() {
+          $.facebox.$el.find(options.cancelButton).click()
+        })
+      }
+    }
 
     if (data.ajax) fillFaceboxFromAjax(data.ajax, klass)
     else if (data.image) fillFaceboxFromImage(data.image, klass)
@@ -140,12 +180,17 @@
       $('#facebox .body').children().hide().end().
         append('<div class="loading"><img src="'+$.facebox.settings.loadingImage+'"/></div>')
 
-      $(document).bind('keydown.facebox', function(e) {
-        if (e.keyCode == 27) $.facebox.close()
-        if (e.keyCode == 13) $.facebox.close()
+      $(document).on('keydown.facebox', function(e) {
+        if (e.keyCode == 27) $(document).trigger('cancel.facebox')
+        if (e.keyCode == 13) $(document).trigger('default.facebox')
         return true
       })
       $(document).trigger('loading.facebox')
+    },
+
+    buttons: function(html) {
+      this.$el.find('.footer').html("").append(html)
+      $(document).trigger('buttons.facebox')
     },
 
     reveal: function(data, klass) {
@@ -217,7 +262,8 @@
     $.facebox.settings.imageTypesRegexp = new RegExp('\.(' + imageTypes + ')$', 'i')
 
     if (settings) $.extend($.facebox.settings, settings)
-    $('body').append($.facebox.settings.faceboxHtml)
+    $.facebox.$el = $($.facebox.settings.faceboxHtml)
+    $('body').append($.facebox.$el)
     
     var preload = [ new Image(), new Image() ]
     preload[0].src = $.facebox.settings.closeImage
@@ -228,8 +274,9 @@
       preload.slice(-1).src = $(this).css('background-image').replace(/url\((.+)\)/, '$1')
     })
 
-    $('#facebox .close').click($.facebox.close)
+    $('#facebox').on('click', '.close', $.facebox.close)
     $('#facebox .close_image').attr('src', $.facebox.settings.closeImage)
+    $(document).trigger('afterInit.facebox')
   }
 
   // getPageScroll() by quirksmode.com
