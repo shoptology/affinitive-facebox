@@ -98,29 +98,29 @@
   		$.facebox.currentEl = null;
   	}
   	if (data.html) {
-  		data = data.html;  		
+  		data = data.html;
   	}
-    $(document).on('default.facebox', function() {
-      $.facebox.close()	  
-    })
-    $(document).on('cancel.facebox', function() {
-      $.facebox.close()	  
-    })
     $.facebox.loading()
-    if (options.buttons) {
-      $.facebox.buttons(options.buttons)
-      if (options.defaultButton) {
-        $(document).off('default.facebox')
-        $(document).on('default.facebox', function() {
-          $.facebox.$el.find(options.defaultButton).click()
-        })
-      }
-      if (options.cancelButton) {
-        $(document).off('cancel.facebox')
-        $(document).on('cancel.facebox', function() {
-          $.facebox.$el.find(options.cancelButton).click()
-        })
-      }
+    $.facebox.buttons(options.buttons)
+    $(document).off('default.facebox')
+    if (options.defaultButton) {
+      $(document).on('default.facebox', function() {
+        $.facebox.$el.find(options.defaultButton).click()
+      })
+    } else {
+      $(document).on('default.facebox', function() {
+        $.facebox.close()
+      })
+    }
+    $(document).off('cancel.facebox')
+    if (options.cancelButton) {
+      $(document).on('cancel.facebox', function() {
+        $.facebox.$el.find(options.cancelButton).click()
+      })
+    } else {
+      $(document).on('cancel.facebox', function() {
+        $.facebox.close()
+      })
     }
 
     if (data.ajax) fillFaceboxFromAjax(data.ajax, klass)
@@ -155,9 +155,6 @@
                 <div class="content"> \
                 </div> \
                 <div class="footer"> \
-                  <a href="#" class="button close"> \
-                    Okay \
-                  </a> \
                 </div> \
               </td> \
               <td class="b"/> \
@@ -189,28 +186,35 @@
     },
 
     buttons: function(html) {
+      if (html === undefined) {
+        html = '<a href="#" class="button close">Okay</a>'
+      }
       this.$el.find('.footer').html("").append(html)
       $(document).trigger('buttons.facebox')
     },
 
     reveal: function(data, klass) {
+      var facebox = $('#facebox')
       if ($.facebox.currentEl) {
-	    $('#facebox').css({
+	    facebox.css({
 	      top:	$($.facebox.currentEl).offset().top + $.facebox.currentElOffset,
 	      left:	$(window).width() / 2 - 237
 	    }).show();
 	  } else {
-	    $('#facebox').css({
+	    facebox.css({
 	      top:	getPageHeight() / 10,
 	      left:	$(window).width() / 2 - 237
 	    }).show();
 	  }
       $(document).trigger('beforeReveal.facebox')
       if (klass) $('#facebox .content').addClass(klass)
-      $('#facebox .content').append(data)
-      $('#facebox .loading').remove()
-      $('#facebox .body').children().fadeIn('normal')
-      $('#facebox').css('left', $(window).width() / 2 - ($('#facebox .popup').width() / 2))
+      facebox.find('.content').append(data)
+      facebox.find('.loading').remove()
+      facebox.find('.body').children().fadeIn('normal')
+      facebox.css('left', $(window).width() / 2 - (facebox.width() / 2))
+      if ($('body').height() < (facebox.offset().top + facebox.height())) {
+        facebox.css('top', 'auto').css('bottom', 0)
+      }
       $(document).trigger('reveal.facebox').trigger('afterReveal.facebox')
     },
 
