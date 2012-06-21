@@ -194,7 +194,7 @@
     },
 
     reveal: function(data, klass) {
-      var facebox = $('#facebox')
+      var facebox = $('#facebox'), height = getPageHeight()
       if ($.facebox.currentEl) {
 	    facebox.css({
 	      top:	$($.facebox.currentEl).offset().top + $.facebox.currentElOffset,
@@ -202,7 +202,7 @@
 	    }).show();
 	  } else {
 	    facebox.css({
-	      top:	getPageHeight() / 10,
+	      top:	height / 10,
 	      left:	$(window).width() / 2 - 237
 	    }).show();
 	  }
@@ -212,8 +212,8 @@
       facebox.find('.loading').remove()
       facebox.find('.body').children().fadeIn('normal')
       facebox.css('left', $(window).width() / 2 - (facebox.width() / 2))
-      if ($(document).height() < (facebox.offset().top + facebox.height())) {
-        facebox.css('top', $(document).height() - facebox.height())
+      if (height < (facebox.offset().top + facebox.height())) {
+        facebox.css('top', height - facebox.height() - 10)
       }
       $(document).trigger('reveal.facebox').trigger('afterReveal.facebox')
     },
