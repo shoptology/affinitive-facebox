@@ -212,8 +212,8 @@
       facebox.find('.loading').remove()
       facebox.find('.body').children().fadeIn('normal')
       facebox.css('left', $(window).width() / 2 - (facebox.width() / 2))
-      if ($('body').height() < (facebox.offset().top + facebox.height())) {
-        facebox.css('top', 'auto').css('bottom', 0)
+      if ($(document).height() < (facebox.offset().top + facebox.height())) {
+        facebox.css('top', $(document).height() - facebox.height())
       }
       $(document).trigger('reveal.facebox').trigger('afterReveal.facebox')
     },
@@ -331,6 +331,8 @@
     } else if (href.match($.facebox.settings.imageTypesRegexp)) {
       fillFaceboxFromImage(href, klass)
     // ajax
+    } else if (typeof href === 'object') {
+      $.facebox.reveal(href, klass)
     } else {
       fillFaceboxFromAjax(href, klass)
     }
@@ -384,7 +386,7 @@
   $(document).bind('close.facebox', function() {
     $(document).unbind('keydown.facebox')
     $('#facebox').fadeOut(function() {
-      $('#facebox .content').removeClass().addClass('content')
+      $('#facebox .content').html("").removeClass().addClass('content')
       $('#facebox .loading').remove()
       $(document).trigger('afterClose.facebox')
     })
