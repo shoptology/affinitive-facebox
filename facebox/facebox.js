@@ -87,19 +87,19 @@
 (function($) {
   $.facebox = function(data, klass) {
     var options = data
-  	if (data.el) {
-  	    $.facebox.currentEl = data.el;
-  	    if (data.elOffset) {
-  			$.facebox.currentElOffset = data.elOffset; 
-  		} else {
-  			$.facebox.currentElOffset = 0;	
-  		}
-  	} else {
-  		$.facebox.currentEl = null;
-  	}
-  	if (data.html) {
-  		data = data.html;
-  	}
+    if (data.el) {
+      $.facebox.currentEl = data.el;
+      if (data.elOffset) {
+        $.facebox.currentElOffset = data.elOffset; 
+      } else {
+        $.facebox.currentElOffset = 'auto';
+      }
+    } else {
+      $.facebox.currentEl = null;
+    }
+    if (data.html) {
+      data = data.html;
+    }
     $.facebox.loading()
     $.facebox.buttons(options.buttons)
     $(document).off('default.facebox')
@@ -200,8 +200,14 @@
     },
 
     reveal: function(data, klass) {
-      var facebox = $('#facebox'), height = $('body').height()
+      var facebox = $('#facebox'), height = $('body').height(), adjust = false
+      console.log('revealing')
+      console.log(data)
       if ($.facebox.currentEl) {
+        if ($.facebox.currentElOffset === 'auto') {
+          adjust = true
+          $.facebox.currentElOffset = 0
+        }
 	    facebox.css({
 	      top:	$($.facebox.currentEl).offset().top + $.facebox.currentElOffset,
 	      left:	$(window).width() / 2 - 237
@@ -217,9 +223,15 @@
       facebox.find('.content').append(data)
       facebox.find('.loading').remove()
       facebox.find('.body').children().fadeIn('normal')
-      facebox.css('left', $(window).width() / 2 - (facebox.width() / 2))
+      facebox.css('left', $(window).width() / 2 - facebox.width() / 2)
+      if (adjust) {
+        facebox.css('top', facebox.offset().top - facebox.height() / 2)
+      }
       if (height < (facebox.offset().top + facebox.height())) {
         facebox.css('top', height - facebox.height() - 10)
+      }
+      if (facebox.offset().top < 0) {
+        facebox.css('top', 0)
       }
       $(document).trigger('reveal.facebox').trigger('afterReveal.facebox')
     },
@@ -390,6 +402,8 @@
    */
 
   $(document).bind('close.facebox', function() {
+	console.log('close.facebox called')
+	console.log(arguments)
     $(document).unbind('keydown.facebox')
     $('#facebox').fadeOut(function() {
       $('#facebox .content').html("").removeClass().addClass('content')
