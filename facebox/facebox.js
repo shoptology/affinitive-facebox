@@ -123,11 +123,17 @@
       })
     }
 
-    if (data.ajax) fillFaceboxFromAjax(data.ajax, klass)
-    else if (data.image) fillFaceboxFromImage(data.image, klass)
-    else if (data.div) fillFaceboxFromHref(data.div, klass)
-    else if ($.isFunction(data)) data.call($)
-    else $.facebox.reveal(data, klass)
+    if (data.ajax) {
+      fillFaceboxFromAjax(data.ajax, klass)
+    } else if (data.image) {
+      fillFaceboxFromImage(data.image, klass)
+    } else if (data.div) {
+      fillFaceboxFromHref(data.div, klass)
+    } else if ($.isFunction(data)) {
+      data.call($)
+    } else {
+      $.facebox.reveal(data, klass)
+    }
   }
 
   /*
@@ -194,17 +200,17 @@
     },
 
     reveal: function(data, klass) {
-      var facebox = $('#facebox'), height = getPageHeight()
+      var facebox = $('#facebox'), height = $('body').height()
       if ($.facebox.currentEl) {
 	    facebox.css({
 	      top:	$($.facebox.currentEl).offset().top + $.facebox.currentElOffset,
 	      left:	$(window).width() / 2 - 237
-	    }).show();
+	    }).show()
 	  } else {
 	    facebox.css({
-	      top:	height / 10,
+	      top:	getPageScroll() + getPageHeight() / 10,
 	      left:	$(window).width() / 2 - 237
-	    }).show();
+	    }).show()
 	  }
       $(document).trigger('beforeReveal.facebox')
       if (klass) $('#facebox .content').addClass(klass)
