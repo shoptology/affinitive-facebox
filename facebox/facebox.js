@@ -90,7 +90,7 @@
     if (data.el) {
       $.facebox.currentEl = data.el;
       if (data.elOffset) {
-        $.facebox.currentElOffset = data.elOffset; 
+        $.facebox.currentElOffset = data.elOffset;
       } else {
         $.facebox.currentElOffset = 'auto';
       }
@@ -147,8 +147,7 @@
       loadingImage : 'facebox/loading.gif',
       closeImage   : 'facebox/closelabel.gif',
       imageTypes   : [ 'png', 'jpg', 'jpeg', 'gif' ],
-      faceboxHtml  : '\
-    <div id="facebox" style="display:none;"> \
+      faceboxHtml  : '<div id="facebox" style="display:none;"> \
       <div class="popup"> \
         <table> \
           <tbody> \
@@ -253,7 +252,7 @@
 
     function clickHandler() {
       $.facebox.loading(true)
-      
+
       $.facebox.currentEl = this;
 
       // support for rel="facebox.inline_popup" syntax, to add a class
@@ -286,7 +285,7 @@
     if (settings) $.extend($.facebox.settings, settings)
     $.facebox.$el = $($.facebox.settings.faceboxHtml)
     $('body').append($.facebox.$el)
-    
+
     var preload = [ new Image(), new Image() ]
     preload[0].src = $.facebox.settings.closeImage
     preload[1].src = $.facebox.settings.loadingImage
